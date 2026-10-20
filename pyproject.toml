@@ -1,0 +1,65 @@
+[project]
+name = "backend-template"
+version = "0.1.0"
+description = "Template de backend Python (FastAPI)"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.146.0",
+    "httpx>=0.28.1",
+    "pydantic-settings>=2.16.0",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx2>=2.14.0",
+    "mypy>=2.4.0",
+    "pre-commit>=4.7.0",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "respx>=0.23.1",
+    "ruff>=0.17.1",
+]
+
+[tool.uv]
+package = false
+
+# ---------------------------------------------------------------- Ruff
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # tri des imports
+    "N",        # conventions de nommage
+    "UP",       # syntaxe Python moderne
+    "B",        # bugs fréquents
+    "SIM",      # simplifications
+    "ASYNC",    # erreurs en code asynchrone
+    "S",        # sécurité
+    "RUF",      # règles propres à Ruff
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]  # assert autorisé dans les tests
+
+[tool.ruff.format]
+quote-style = "double"
+
+# ---------------------------------------------------------------- Mypy
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+
+# ---------------------------------------------------------------- Pytest
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+
+[tool.coverage.run]
+source = ["app"]

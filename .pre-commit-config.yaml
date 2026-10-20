@@ -1,0 +1,31 @@
+# Hooks Git exécutés automatiquement (équivalent de Husky côté front).
+# Installation (une seule fois après le clone) : uv run pre-commit install
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff (lint)
+        entry: uv run ruff check --fix --exit-non-zero-on-fix
+        language: system
+        types: [python]
+
+      - id: ruff-format
+        name: ruff (formatage)
+        entry: uv run ruff format
+        language: system
+        types: [python]
+
+      - id: mypy
+        name: mypy (typage)
+        entry: uv run mypy app tests
+        language: system
+        types: [python]
+        pass_filenames: false
+
+      - id: commit-msg
+        name: format du message de commit
+        entry: uv run python scripts/commit_msg_check.py
+        language: system
+        stages: [commit-msg]
